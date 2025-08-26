@@ -1,0 +1,40 @@
+.plugin-color-picker-pick-button {
+  position: absolute;
+  left: 16px;
+  top: 34px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.plugin-color-picker-pick-button > div {
+  height: 16px;
+  width: 16px;
+  border: 1px solid #dae3f2;
+}
+
+.plugin-color-picker-picker {
+  position: absolute;
+  z-index: 100;
+}
+
+.plugin-color-picker-input {
+  padding-left: 65px;
+}
+
+.plugin-color-picker-clean-ctd-warning,
+.plugin-color-picker-clean-ctd-warning__heading {
+  display: flex;
+  flex-direction: column;
+}
+
+.plugin-color-picker-clean-ctd-warning__heading {
+  color: #eb5757;
+  border-bottom: 1px solid #eb5757;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+}
+
+.plugin-color-picker-clean-ctd-warning__content {
+  white-space: pre-line;
+}

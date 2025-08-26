@@ -1,20 +1,39 @@
 const appRoots = {};
 
+export const removeRoot = (key) => {
+  delete appRoots[key];
+};
+
 export const addElementToCache = (element, root, key) => {
   appRoots[key] = {
     element,
     root,
   };
 
-  element.addEventListener('flotiq.detached', () => {
-    setTimeout(() => {
-      return delete appRoots[key];
-    }, 50);
-  });
+  if (element.addEventListener) {
+    let detachTimeoutId;
+
+    element.addEventListener('flotiq.attached', () => {
+      if (detachTimeoutId) {
+        clearTimeout(detachTimeoutId);
+        detachTimeoutId = null;
+      }
+    });
+
+    element.addEventListener('flotiq.detached', () => {
+      detachTimeoutId = setTimeout(() => {
+        delete appRoots[key];
+      }, 50);
+    });
+  }
 };
 
 export const getCachedElement = (key) => {
   return appRoots[key];
+};
+
+export const addObjectToCache = (key, object) => {
+  appRoots[key] = object;
 };
 
 export const registerFn = (pluginInfo, callback) => {

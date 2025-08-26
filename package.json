@@ -6,8 +6,12 @@
   "description": "A react-based example of Flotiq plugin. This will render a shiny title instead of regular title fields",
   "private": true,
   "dependencies": {
+    "deep-equal": "^2.2.3",
+    "i18next": "^25.4.2",
     "react": "^19.0.0",
+    "react-color": "^2.19.3",
     "react-dom": "^19.0.0",
+    "react-i18next": "^15.7.2",
     "react-scripts": "^5.0.1"
   },
   "scripts": {
@@ -16,12 +20,6 @@
     "build": "cpx -v ./src/plugin-manifest.json ./public/ && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [
@@ -36,11 +34,15 @@
     ]
   },
   "devDependencies": {
+    "@eslint/js": "^9.34.0",
+    "@stylistic/eslint-plugin": "^5.2.3",
     "concurrently": "^9.1.2",
     "cpx": "^1.5.0",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.3.0",
     "prettier": "^3.5.3"
   }
 }
