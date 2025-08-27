@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom/client';
 import ColorPicker from './ColorPicker/ColorPicker';
 import { addElementToCache, getCachedElement } from '../plugin-helpers';
 import { validFieldsCacheKey } from '../manage-form/lib/valid-fields';
+import i18n from '../i18n';
 
 const updateApp = (root, data) => {
   root.render(<ColorPicker {...data} />);
@@ -62,4 +63,6 @@ export const handleFieldConfig = (data, getPluginSettings) => {
 
   config.additionalElements = [getCachedElement(key).element];
   config.additionalInputClasses = 'plugin-color-picker-input';
+  config.placeholder = i18n.t('SelectColor');
+  config.autoComplete = 'off';
 };

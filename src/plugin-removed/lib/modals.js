@@ -10,8 +10,6 @@ const getContent = (headerText, contentText) => {
   const modalContentCacheKey = `${pluginInfo.id}-clean-ctd-warning`;
   let modalContent = getCachedElement(modalContentCacheKey)?.element;
 
-  console.log('modalContent', modalContent);
-
   if (!modalContent) {
     modalContent = document.createElement('div');
     modalContent.className = 'plugin-color-picker-clean-ctd-warning';

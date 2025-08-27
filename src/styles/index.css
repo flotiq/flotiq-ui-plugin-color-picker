@@ -1,25 +1,27 @@
 .plugin-color-picker-pick-button {
   position: absolute;
   left: 16px;
-  top: 34px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  top: 38px;
 }
 
 .plugin-color-picker-pick-button > div {
   height: 16px;
   width: 16px;
-  border: 1px solid #dae3f2;
+  border: 1px solid #8ea1b8;
 }
 
 .plugin-color-picker-picker {
   position: absolute;
   z-index: 100;
+  display: none;
+}
+
+.plugin-color-picker-pick-button--opened + .plugin-color-picker-picker {
+  display: block;
 }
 
 .plugin-color-picker-input {
-  padding-left: 65px;
+  padding-left: 40px;
 }
 
 .plugin-color-picker-clean-ctd-warning,
