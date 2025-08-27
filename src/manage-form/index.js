@@ -4,7 +4,7 @@ import {
   addObjectToCache,
   getCachedElement,
   removeRoot,
-} from '../plugin-helpers';
+} from '../lib/plugin-helpers';
 import { getValidFields, validFieldsCacheKey } from './lib/valid-fields';
 import { getValidator } from './lib/validator';
 import { getSchema } from './lib/schema';

@@ -1,19 +1,7 @@
 import deepEqual from 'deep-equal';
 import pluginInfo from '../plugin-manifest.json';
 import { errorModal, showWarningModal } from './lib/modals';
-
-const getUpdateData = (config, contentTypesAcc) => {
-  return (config || []).map(({ content_type, fields }) => {
-    const ctd = contentTypesAcc[content_type];
-    const ctdClone = JSON.parse(JSON.stringify(ctd));
-
-    (fields || []).forEach((field) => {
-      delete ctdClone.schemaDefinition.allOf[1].properties[field].pattern;
-    });
-
-    return { ctd, ctdClone };
-  });
-};
+import { getUpdateData } from '../lib/transform-ctd';
 
 export const handleRemovedEvent = async (
   client,
@@ -54,7 +42,7 @@ export const handleRemovedEvent = async (
 
     if (!removePatterns) return;
 
-    const ctdsToUpdate = getUpdateData(pluginSettings.config, contentTypesAcc);
+    const ctdsToUpdate = getUpdateData(pluginSettings, contentTypesAcc, true);
 
     await Promise.all(
       ctdsToUpdate.map(async ({ ctd, ctdClone }) => {

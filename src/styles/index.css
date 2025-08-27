@@ -65,8 +65,6 @@ div:has(> label.hidden) + div .plugin-color-picker-pick-button {
 
 .plugin-color-picker-clean-ctd-warning__heading {
   color: #eb5757;
-  border-bottom: 1px solid #eb5757;
-  margin-bottom: 16px;
   padding-bottom: 16px;
 }
 

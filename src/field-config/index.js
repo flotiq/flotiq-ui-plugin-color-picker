@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import pluginInfo from '../plugin-manifest.json';
 import ColorPicker from './ColorPicker/ColorPicker';
-import { addElementToCache, getCachedElement } from '../plugin-helpers';
+import { addElementToCache, getCachedElement } from '../lib/plugin-helpers';
 import { validFieldsCacheKey } from '../manage-form/lib/valid-fields';
 import i18n from '../i18n';
 

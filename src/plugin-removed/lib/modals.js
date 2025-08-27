@@ -1,5 +1,5 @@
 import i18n from '../../i18n';
-import { addElementToCache, getCachedElement } from '../../plugin-helpers';
+import { addElementToCache, getCachedElement } from '../../lib/plugin-helpers';
 import pluginInfo from '../../plugin-manifest.json';
 
 const warningModalId = 'plugin-color-picker-warning-modal';

@@ -1,4 +1,4 @@
-import { registerFn } from './plugin-helpers';
+import { registerFn } from './lib/plugin-helpers';
 import pluginInfo from './plugin-manifest.json';
 import i18n from './i18n';
 import { handleFieldConfig } from './field-config';
