@@ -1,13 +1,29 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ChromePicker } from 'react-color';
 
+/**
+ * Converts alpha (0-1) to 2-digit hex
+ * Due to https://github.com/casesandberg/react-color/issues/416,
+ * we need to manually convert aplha to hex
+ */
+const alphaToHex = (alpha) => {
+  const hex = Math.round(alpha * 255)
+    .toString(16)
+    .padStart(2, '0');
+  return hex;
+};
+
 const ColorPicker = ({ name, value, formik }) => {
   const ref = useRef();
   const [open, setOpen] = useState(false);
 
   const onChange = useCallback(
     (color) => {
-      formik.setFieldValue(name, color.hex);
+      let hexColor = color.hex;
+      if (typeof color.rgb?.a === 'number' && color.rgb.a < 1) {
+        hexColor += alphaToHex(color.rgb.a);
+      }
+      formik.setFieldValue(name, hexColor);
       formik.validateForm('change');
     },
     [formik, name],
@@ -19,7 +35,7 @@ const ColorPicker = ({ name, value, formik }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (event.target.className.includes('plugin-color-picker-input')) {
+      if (event.target?.className?.includes?.('plugin-color-picker-input')) {
         setOpen(true);
       }
 
@@ -50,10 +66,14 @@ const ColorPicker = ({ name, value, formik }) => {
         onClick={toggleOpen}
         ref={ref}
       >
-        <div style={{ backgroundColor: value || '#ffffff' }} />
+        <div className="plugin-color-picker-swatch-bg"></div>
+        <div
+          className={`plugin-color-picker-swatch ${!value ? 'plugin-color-picker-swatch--empty' : ''}`}
+          style={{ background: value || '#ffffff' }}
+        />
       </button>
       <div className="plugin-color-picker-picker">
-        <ChromePicker color={value} onChangeComplete={onChange} />
+        <ChromePicker color={value} onChange={onChange} />
       </div>
     </>
   );

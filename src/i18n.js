@@ -7,6 +7,7 @@ import { initReactI18next } from 'react-i18next';
 const resources = {
   en: {
     translation: {
+      ChooseColor: 'Choose a color',
       Config: 'Config',
       ContentType: 'Content Type',
       ContentTypeUpdateError:
@@ -22,7 +23,6 @@ const resources = {
       },
       FieldRequired: 'Field is required',
       Fields: 'Fields',
-      SelectColor: 'Select a color',
       SettingsUpdateError: 'Something occured when updating plugin settings',
       UpdateError: 'Something occured when updating plugin',
       WrongField: "One of the fields doesn't exist",
@@ -30,6 +30,7 @@ const resources = {
   },
   pl: {
     translation: {
+      ChooseColor: 'Wybierz kolor',
       Config: 'Konfiguracja',
       ContentType: 'Definicja typu',
       ContentTypeUpdateError:
@@ -45,7 +46,6 @@ const resources = {
       },
       Fields: 'Pola',
       FieldRequired: 'Pole jest wymagane',
-      SelectColor: 'Wybierz kolor',
       SettingsUpdateError:
         'Wystąpił błąd podczas aktualizacji ustawień wtyczki',
       UpdateError: 'Wystąpił błąd podczas aktualizacji wtyczki',

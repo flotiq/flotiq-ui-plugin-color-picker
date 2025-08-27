@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom/client';
+import pluginInfo from '../plugin-manifest.json';
 import ColorPicker from './ColorPicker/ColorPicker';
 import { addElementToCache, getCachedElement } from '../plugin-helpers';
 import { validFieldsCacheKey } from '../manage-form/lib/valid-fields';
@@ -19,11 +20,7 @@ export const handleFieldConfig = (data, getPluginSettings) => {
 
   const { contentType, config, properties, name, formUniqueKey, formik } = data;
 
-  if (
-    !contentType ||
-    contentType.nonCtdSchema ||
-    properties?.inputType !== 'text'
-  ) {
+  if (contentType?.id === pluginInfo.id && contentType?.nonCtdSchema) {
     const { index, type } =
       name.match(/config\[(?<index>\d+)\].(?<type>\w+)/)?.groups || {};
 
@@ -38,6 +35,8 @@ export const handleFieldConfig = (data, getPluginSettings) => {
     return;
   }
 
+  if (!contentType || properties?.inputType !== 'text') return;
+
   const pluginSettings = getPluginSettings();
   const parsedSettings = JSON.parse(pluginSettings || '{}');
 
@@ -47,7 +46,9 @@ export const handleFieldConfig = (data, getPluginSettings) => {
 
   if (
     !contentTypeSettings?.length ||
-    !contentTypeSettings.filter(({ fields }) => fields.includes(name)).length
+    !contentTypeSettings.filter(({ fields }) =>
+      fields.includes(name.replace(/\[\d+\]/g, '')),
+    ).length
   )
     return;
 
@@ -63,6 +64,6 @@ export const handleFieldConfig = (data, getPluginSettings) => {
 
   config.additionalElements = [getCachedElement(key).element];
   config.additionalInputClasses = 'plugin-color-picker-input';
-  config.placeholder = i18n.t('SelectColor');
+  config.placeholder = i18n.t('ChooseColor');
   config.autoComplete = 'off';
 };

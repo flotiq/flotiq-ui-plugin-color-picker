@@ -4,9 +4,13 @@
   top: 38px;
 }
 
+div:has(> label.hidden) + div .plugin-color-picker-pick-button {
+  top: 16px;
+}
+
 .plugin-color-picker-pick-button > div {
   height: 16px;
-  width: 16px;
+  width: 32px;
   border: 1px solid #8ea1b8;
 }
 
@@ -21,7 +25,36 @@
 }
 
 .plugin-color-picker-input {
-  padding-left: 40px;
+  padding-left: 56px;
+}
+
+.plugin-color-picker-swatch-bg,
+.plugin-color-picker-swatch {
+  position: absolute;
+  inset: 0px;
+}
+
+.plugin-color-picker-swatch-bg {
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAPUlEQVR4AeySywkAMAhDH52h+0/YIRoH8IMnD0JyCgSe5gA3sWJfVuCnhWQLYMYNnr4VOdzJDAQR9LUI8AEAAP//ViLpiAAAAAZJREFUAwBk7gjBheCOvgAAAABJRU5ErkJggg==')
+    left center;
+}
+
+.plugin-color-picker-swatch--empty::after,
+.plugin-color-picker-swatch--empty::before {
+  content: '';
+  display: block;
+  content: '';
+  width: 100%;
+  height: 1px;
+  background: #8ea1b8;
+  transform: skewY(25deg);
+  position: absolute;
+  top: 50%;
+  left: 0;
+}
+
+.plugin-color-picker-swatch--empty::before {
+  transform: skewY(-25deg);
 }
 
 .plugin-color-picker-clean-ctd-warning,

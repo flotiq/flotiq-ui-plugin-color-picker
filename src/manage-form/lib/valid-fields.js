@@ -1,5 +1,38 @@
 import pluginInfo from '../../plugin-manifest.json';
 
+export const validInputTypes = ['text', 'simpleList'];
+
+const findValidFields = (
+  properties,
+  fields,
+  fieldKeys,
+  parentKey = '',
+  parentLabel = '',
+) => {
+  Object.entries(properties || {}).forEach(([key, value]) => {
+    const inputType = value?.inputType;
+    const fieldConfig = value;
+    const fieldKey = parentKey ? `${parentKey}.${key}` : key;
+    const fieldLabel = parentLabel
+      ? `${parentLabel} > ${fieldConfig.label || fieldKey}`
+      : fieldConfig.label;
+
+    if (inputType === 'object') {
+      findValidFields(
+        fieldConfig.items.propertiesConfig,
+        fields,
+        fieldKeys,
+        fieldKey,
+        fieldLabel,
+      );
+    }
+    if (validInputTypes.includes(inputType)) {
+      fields.push({ value: fieldKey, label: fieldLabel });
+      fieldKeys.push(fieldKey);
+    }
+  });
+};
+
 export const getValidFields = (contentTypes) => {
   const fields = {};
   const fieldKeys = {};
@@ -12,16 +45,10 @@ export const getValidFields = (contentTypes) => {
     fields[name] = [];
     fieldKeys[name] = [];
 
-    Object.entries(metaDefinition?.propertiesConfig || {}).forEach(
-      ([key, value]) => {
-        const inputType = value?.inputType;
-        const fieldConfig = value;
-
-        if (inputType === 'text') {
-          fields[name].push({ value: key, label: fieldConfig.label });
-          fieldKeys[name].push(key);
-        }
-      },
+    findValidFields(
+      metaDefinition?.propertiesConfig,
+      fields[name],
+      fieldKeys[name],
     );
   });
 
