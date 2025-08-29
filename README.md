@@ -2,9 +2,27 @@
     <img src="https://editor.flotiq.com/fonts/fq-logo.svg" alt="Flotiq logo" title="Flotiq" align="right" height="60" />
 </a>
 
-# Example Flotiq Plugin in React
+# About Flotiq Color Picker plugin
 
-A react-based example of Flotiq plugin. This will render a shiny title instead of regular title fields
+The Flotiq Color Picker plugin transforms standard text input fields into intuitive color selection interfaces. This plugin provides a visual way to select and manage colors for your content, eliminating the need to manually enter hex color codes.
+
+## Plugin outcome 
+
+Transformed text field into color picker:
+
+<img src=".docs/input-color-picker.png" alt="Input with color picker" width="400"/>
+
+## Configuring the plugin
+
+1. First, click "Add Item".
+2. Select the Content Type.
+3. Choose at least one field to transform for provided Content Type.
+
+<img src=".docs/color-picker-settings.png" alt="Color picker configuration" width="400"/>
+
+After saving the plugin, the selected fields in your content type definition will be automatically updated with a validation pattern (regex) to ensure proper hex color code format. To maintain color validation functionality, please keep this pattern intact and avoid manual removal.
+
+# Development
 
 ## Quickstart:
 
