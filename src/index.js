@@ -4,7 +4,8 @@ import i18n from './i18n';
 import { handleFieldConfig } from './field-config';
 import { handleManageForm } from './manage-form';
 import { handleRemovedEvent } from './plugin-removed';
-import cssString from './styles/index.css';
+
+import cssString from '!!css-loader?{"sourceMap":false,"exportType":"string"}!./styles/index.css';
 
 registerFn(
   pluginInfo,
