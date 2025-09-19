@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ChromePicker } from 'react-color';
+import pluginInfo from '../../plugin-manifest.json';
+import { SketchPicker } from 'react-color';
+import { updatePresetColors } from '../../lib/preset-colors';
 
 /**
  * Converts alpha (0-1) to 2-digit hex
@@ -13,9 +15,41 @@ const alphaToHex = (alpha) => {
   return hex;
 };
 
-const ColorPicker = ({ name, value, formik }) => {
+const getFieldColorsPreset = (pluginSettings, name, contentTypeName) => {
+  const allPresets = JSON.parse(pluginSettings || '{}')?.presets || [];
+  const fieldPreset = allPresets.find(
+    ({ content_type, field_name }) =>
+      content_type === contentTypeName && field_name === name,
+  );
+  return fieldPreset?.colors_preset || [];
+};
+
+const ColorPicker = ({
+  name,
+  value,
+  contentType,
+  formik,
+  client,
+  getPluginSettings,
+  setPluginSettings,
+}) => {
   const ref = useRef();
   const [open, setOpen] = useState(false);
+  const [presetColors, setPresetColors] = useState(() =>
+    getFieldColorsPreset(getPluginSettings(), name, contentType?.name),
+  );
+
+  useEffect(() => {
+    console.log('update');
+    client['_plugin_settings'].get(pluginInfo.id).then(({ ok, body }) => {
+      if (ok && body.settings) {
+        setPluginSettings(body.settings);
+        setPresetColors(
+          getFieldColorsPreset(body.settings, name, contentType?.name),
+        );
+      }
+    });
+  }, [client, contentType?.name, name, setPluginSettings]);
 
   const onChange = useCallback(
     (color) => {
@@ -32,6 +66,26 @@ const ColorPicker = ({ name, value, formik }) => {
   const toggleOpen = useCallback(() => {
     setOpen((open) => !open);
   }, []);
+
+  const onChangeComplete = useCallback(
+    (color) => {
+      let hexColor = color.hex;
+      if (typeof color.rgb?.a === 'number' && color.rgb.a < 1) {
+        hexColor += alphaToHex(color.rgb.a);
+      }
+      const newColorsPreset = updatePresetColors(
+        hexColor,
+        name,
+        contentType?.name,
+        getPluginSettings,
+        setPluginSettings,
+        client,
+      );
+
+      setPresetColors(newColorsPreset);
+    },
+    [name, contentType?.name, getPluginSettings, setPluginSettings, client],
+  );
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -73,7 +127,12 @@ const ColorPicker = ({ name, value, formik }) => {
         />
       </button>
       <div className="plugin-color-picker-picker">
-        <ChromePicker color={value} onChange={onChange} />
+        <SketchPicker
+          color={value}
+          onChange={onChange}
+          presetColors={presetColors}
+          onChangeComplete={onChangeComplete}
+        />
       </div>
     </>
   );

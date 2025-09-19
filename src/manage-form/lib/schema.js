@@ -36,6 +36,27 @@ export const getSchema = (contentTypes) => ({
               },
             },
           },
+          presets: {
+            type: 'array',
+            items: {
+              properties: {
+                field_name: {
+                  type: 'string',
+                },
+                content_type: {
+                  type: 'string',
+                },
+                colors_preset: {
+                  type: 'array',
+                  items: {
+                    type: 'string',
+                  },
+                },
+              },
+              required: [],
+              type: 'object',
+            },
+          },
         },
       },
     ],
@@ -43,7 +64,7 @@ export const getSchema = (contentTypes) => ({
     additionalProperties: false,
   },
   metaDefinition: {
-    order: ['config'],
+    order: ['config', 'presets'],
     propertiesConfig: {
       config: {
         items: {
@@ -72,6 +93,36 @@ export const getSchema = (contentTypes) => ({
         unique: false,
         helpText: '',
         inputType: 'object',
+      },
+      presets: {
+        label: 'presets',
+        helpText: '',
+        unique: false,
+        inputType: 'object',
+        items: {
+          propertiesConfig: {
+            field_name: {
+              label: 'Field name',
+              helpText: '',
+              unique: false,
+              inputType: 'text',
+            },
+            content_type: {
+              label: 'Content type name',
+              helpText: '',
+              unique: false,
+              inputType: 'text',
+            },
+            colors_preset: {
+              label: 'Colors preset',
+              helpText: '',
+              unique: false,
+              inputType: 'simpleList',
+            },
+          },
+          order: ['field_name', 'content_type', 'colors_preset'],
+        },
+        hidden: true,
       },
     },
   },
