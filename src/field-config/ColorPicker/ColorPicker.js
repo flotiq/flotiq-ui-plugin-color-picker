@@ -15,7 +15,8 @@ const alphaToHex = (alpha) => {
   return hex;
 };
 
-const getFieldColorsPreset = (pluginSettings, name, contentTypeName) => {
+const getFieldColorsPreset = (pluginSettings, fieldName, contentTypeName) => {
+  const name = fieldName.replace(/\[\d+\]/g, '');
   const allPresets = JSON.parse(pluginSettings || '{}')?.presets || [];
   const fieldPreset = allPresets.find(
     ({ content_type, field_name }) =>
@@ -40,7 +41,6 @@ const ColorPicker = ({
   );
 
   useEffect(() => {
-    console.log('update');
     client['_plugin_settings'].get(pluginInfo.id).then(({ ok, body }) => {
       if (ok && body.settings) {
         setPluginSettings(body.settings);

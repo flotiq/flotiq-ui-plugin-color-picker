@@ -2,12 +2,15 @@ import pluginManifest from '../plugin-manifest.json';
 
 export const updatePresetColors = (
   newColor,
-  name,
+  fieldName,
   contentTypeName,
   getPluginSettings,
   setPluginSettings,
   apiClient,
 ) => {
+  if (!newColor || !fieldName || !contentTypeName) return;
+
+  const name = fieldName.replace(/\[\d+\]/g, '');
   const pluginSettings = getPluginSettings();
 
   const newSettings = JSON.parse(pluginSettings || '{}');
