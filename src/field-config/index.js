@@ -4,6 +4,7 @@ import ColorPicker from './ColorPicker/ColorPicker';
 import { addElementToCache, getCachedElement } from '../lib/plugin-helpers';
 import { validFieldsCacheKey } from '../manage-form/lib/valid-fields';
 import i18n from '../i18n';
+import { isFieldInPluginSettings } from '../lib/settings';
 
 const updateApp = (root, data) => {
   root.render(<ColorPicker {...data} />);
@@ -15,7 +16,11 @@ const initApp = (div, data) => {
   return root;
 };
 
-export const handleFieldConfig = (data, getPluginSettings) => {
+export const handleFieldConfig = (
+  data,
+  { getPluginSettings, setPluginSettings },
+  client,
+) => {
   if (!data) return;
 
   const { contentType, config, properties, name, formUniqueKey, formik } = data;
@@ -35,31 +40,27 @@ export const handleFieldConfig = (data, getPluginSettings) => {
     return;
   }
 
-  if (!contentType || properties?.inputType !== 'text') return;
-
   const pluginSettings = getPluginSettings();
   const parsedSettings = JSON.parse(pluginSettings || '{}');
 
-  const contentTypeSettings = parsedSettings?.config?.filter(
-    ({ content_type }) => content_type === contentType.name,
-  );
-
-  if (
-    !contentTypeSettings?.length ||
-    !contentTypeSettings.filter(({ fields }) =>
-      fields.includes(name.replace(/\[\d+\]/g, '')),
-    ).length
-  )
+  if (!isFieldInPluginSettings(name, contentType, properties, parsedSettings))
     return;
 
   const key = `${contentType.name}-${formUniqueKey}-${name}`;
   let cachedApp = getCachedElement(key);
 
+  const appData = {
+    ...data,
+    getPluginSettings,
+    setPluginSettings,
+    client,
+  };
+
   if (!cachedApp) {
     const div = document.createElement('div');
-    addElementToCache(div, initApp(div, data), key);
+    addElementToCache(div, initApp(div, appData), key);
   } else {
-    updateApp(cachedApp.root, data);
+    updateApp(cachedApp.root, appData);
   }
 
   config.additionalElements = [getCachedElement(key).element];
