@@ -29,7 +29,7 @@ const ColorPicker = ({
   name,
   value,
   contentType,
-  formik,
+  form,
   client,
   getPluginSettings,
   setPluginSettings,
@@ -57,10 +57,10 @@ const ColorPicker = ({
       if (typeof color.rgb?.a === 'number' && color.rgb.a < 1) {
         hexColor += alphaToHex(color.rgb.a);
       }
-      formik.setFieldValue(name, hexColor);
-      formik.validateForm('change');
+      form.setFieldValue(name, hexColor);
+      form.validateForm('change');
     },
-    [formik, name],
+    [form, name],
   );
 
   const toggleOpen = useCallback(() => {

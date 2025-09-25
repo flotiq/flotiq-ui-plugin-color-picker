@@ -1,6 +1,6 @@
 {
-  "id": "flotiq.color-picker",
-  "name": "Color picker",
+  "id": "flotiq.color-picker-dev",
+  "name": "Color picker DEV",
   "version": "1.1.0",
   "description": "This plugin renders a color picker for selected text inputs.",
   "repository": "https://github.com/flotiq/flotiq-ui-plugin-color-picker",

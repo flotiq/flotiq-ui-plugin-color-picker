@@ -23,7 +23,7 @@ export const handleFieldConfig = (
 ) => {
   if (!data) return;
 
-  const { contentType, config, properties, name, formUniqueKey, formik } = data;
+  const { contentType, config, properties, name, formUniqueKey, form } = data;
 
   if (contentType?.id === pluginInfo.id && contentType?.nonCtdSchema) {
     const { index, type } =
@@ -33,7 +33,7 @@ export const handleFieldConfig = (
 
     if (type === 'fields') {
       const { fields } = getCachedElement(validFieldsCacheKey);
-      const ctd = formik.values.config[index].content_type;
+      const ctd = form.getValue(`config[${index}].content_type`);
       config.options = fields?.[ctd] || [];
     }
 
