@@ -47,7 +47,6 @@ const ColorPicker = ({
         hexColor += alphaToHex(color.rgb.a);
       }
       form.setFieldValue(name, hexColor);
-      form.validateForm('change');
     },
     [form, name],
   );
