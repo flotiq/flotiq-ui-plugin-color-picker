@@ -10,12 +10,19 @@ export const handleFormFieldListenersAdd = (
   const pluginSettings = getPluginSettings();
   const parsedSettings = JSON.parse(pluginSettings || '{}');
 
-  if (contentType?.nonCtdSchema && contentType?.id === pluginInfo.id) {
-    return {
-      onChange: () => {
-        form.rerenderForm();
-      },
-    };
+  if (contentType?.nonCtdSchema && contentType?.id === pluginInfo.id && name) {
+    const { index, type } =
+      name.match(/config\[(?<index>\d+)\].(?<type>\w+)/)?.groups || {};
+
+    if (index == null || !type) return;
+
+    if (type === 'content_type') {
+      return {
+        onChange: () => {
+          form.setFieldValue(`config[${index}].fields`, []);
+        },
+      };
+    }
   }
 
   if (

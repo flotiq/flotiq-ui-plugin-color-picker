@@ -16,6 +16,8 @@ const initApp = (div, data) => {
   return root;
 };
 
+let cachedRequest = null;
+
 export const handleFieldConfig = (
   data,
   { getPluginSettings, setPluginSettings },
@@ -58,7 +60,22 @@ export const handleFieldConfig = (
 
   if (!cachedApp) {
     const div = document.createElement('div');
-    addElementToCache(div, initApp(div, appData), key);
+    addElementToCache(
+      div,
+      initApp(div, appData),
+      key,
+      () => (cachedRequest = null),
+    );
+
+    if (!cachedRequest) {
+      cachedRequest = client['_plugin_settings']
+        .get(pluginInfo.id)
+        .then(({ ok, body }) => {
+          if (ok && body.settings) {
+            setPluginSettings(body.settings);
+          }
+        });
+    }
   } else {
     updateApp(cachedApp.root, appData);
   }
