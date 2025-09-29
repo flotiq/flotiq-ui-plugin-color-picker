@@ -1,3 +1,4 @@
+import i18n from '../i18n';
 import { addElementToCache, getCachedElement } from '../lib/plugin-helpers';
 import pluginInfo from '../plugin-manifest.json';
 
@@ -60,7 +61,7 @@ export const handleFieldRender = (
           accept=".json"
           type="file"
         />
-        Upload Palette
+        ${i18n.t('UploadPalette')}
       </label>
       <div class="flotiq-color-picker-palette-file-card ${!isPallete ? 'flotiq-color-picker-palette--hidden' : ''}">
         <div class="flotiq-color-picker-palette-file-image">
@@ -78,7 +79,7 @@ export const handleFieldRender = (
               class="flotiq-color-picker-palette-button flotiq-color-picker-palette-file-export" 
               type="button"
             >
-              Export
+              ${i18n.t('ExportPalette')}
             </button>
           </div>
         </div>
@@ -100,9 +101,7 @@ export const handleFieldRender = (
           const content = JSON.parse(e.target.result);
 
           if (!isRightFormat(content)) {
-            toast.error(
-              'Invalid palette format. Make sure the JSON structure is correct.',
-            );
+            toast.error(i18n.t('InvalidPalette'));
             return;
           }
 
@@ -110,12 +109,11 @@ export const handleFieldRender = (
             { file_name: file.name, swatches: content },
           ]);
         } catch {
-          toast.error(
-            'Error while reading the file. Make sure it is valid JSON.',
-          );
+          toast.error(i18n.t('WrongJSON'));
         }
       };
       reader.readAsText(file);
+      uploadInput.value = null;
     };
 
     const exportButton = buttonsContainer.querySelector(

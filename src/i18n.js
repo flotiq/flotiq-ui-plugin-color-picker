@@ -21,11 +21,16 @@ const resources = {
         Remove: 'Remove regex',
         Title: 'Do you want to remove hex color regex?',
       },
+      ExportPalette: 'Export',
       FieldRequired: 'Field is required',
       Fields: 'Fields',
+      InvalidPalette:
+        'Invalid palette format. Make sure the JSON structure is correct.',
       SettingsUpdateError: 'Something occured when updating plugin settings',
       UpdateError: 'Something occured when updating plugin',
+      UploadPalette: 'Upload Palette',
       WrongField: "One of the fields doesn't exist",
+      WrongJSON: 'Error while reading the file. Make sure it is valid JSON.',
     },
   },
   pl: {
@@ -44,12 +49,18 @@ const resources = {
         Remove: 'Usuń wyrażenie regularne',
         Title: 'Czy chcesz usunąć wyrażenie regularne koloru?',
       },
+      ExportPalette: 'Eksportuj',
       Fields: 'Pola',
       FieldRequired: 'Pole jest wymagane',
+      InvalidPalette:
+        'Nieprawidłowy format palety. Upewnij się, że struktura JSON jest poprawna.',
       SettingsUpdateError:
         'Wystąpił błąd podczas aktualizacji ustawień wtyczki',
       UpdateError: 'Wystąpił błąd podczas aktualizacji wtyczki',
+      UploadPalette: 'Wgraj paletę',
       WrongField: 'Jedno z pól nie istnieje',
+      WrongJSON:
+        'Błąd podczas odczytu pliku. Upewnij się, że to prawidłowy JSON.',
     },
   },
 };

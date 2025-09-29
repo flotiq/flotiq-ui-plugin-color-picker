@@ -1,5 +1,5 @@
 {
-  "id": "flotiq.color-picker",
+  "id": "flotiq.color-picker-dev",
   "name": "Color picker",
   "version": "1.2.0",
   "description": "This plugin renders a color picker for selected text inputs.",
