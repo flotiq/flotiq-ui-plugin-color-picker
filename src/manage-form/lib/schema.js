@@ -44,14 +44,13 @@ export const getSchema = (contentTypes) => ({
                   type: 'string',
                   minLength: 1,
                 },
-                palette: {
+                swatches: {
                   type: 'array',
                   items: {
                     type: 'array',
                     items: {
                       type: 'string',
                     },
-                    pattern: '(#([0-9a-fA-F]{2}){2,4}$)|(^$)',
                   },
                 },
               },
@@ -131,14 +130,14 @@ export const getSchema = (contentTypes) => ({
               unique: false,
               inputType: 'text',
             },
-            palette: {
-              label: 'Palette',
+            swatches: {
+              label: 'Swatches',
               helpText: '',
               unique: false,
               inputType: 'simpleList',
             },
           },
-          order: ['file_name', 'palette'],
+          order: ['file_name', 'swatches'],
         },
       },
       presets: {

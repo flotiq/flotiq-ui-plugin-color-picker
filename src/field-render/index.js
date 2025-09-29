@@ -1,6 +1,33 @@
 import { addElementToCache, getCachedElement } from '../lib/plugin-helpers';
 import pluginInfo from '../plugin-manifest.json';
 
+const isRightColorFormat = (color) => {
+  return (
+    typeof color === 'string' &&
+    new RegExp('(#([0-9a-fA-F]{2}){2,4}$)|(^$)').test(color)
+  );
+};
+
+const isRightFormat = (content) => {
+  if (!Array.isArray(content)) {
+    return false;
+  }
+  for (let i = 0; i < content.length; i++) {
+    if (
+      !Array.isArray(content[i]) ||
+      content[i].length === 0 ||
+      !content[i].every(
+        (color) =>
+          isRightColorFormat(color) ||
+          (typeof color === 'object' && isRightColorFormat(color.value)),
+      )
+    ) {
+      return false;
+    }
+  }
+  return true;
+};
+
 export const handleFieldRender = (
   { contentType, name, value, formik },
   toast,
@@ -72,10 +99,15 @@ export const handleFieldRender = (
         try {
           const content = JSON.parse(e.target.result);
 
-          console.log({ file_name: file.name, palette: content });
+          if (!isRightFormat(content)) {
+            toast.error(
+              'Invalid palette format. Make sure the JSON structure is correct.',
+            );
+            return;
+          }
 
           formik.setFieldValue('color_palette', [
-            { file_name: file.name, palette: content },
+            { file_name: file.name, swatches: content },
           ]);
         } catch {
           toast.error(
