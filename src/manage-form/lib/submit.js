@@ -14,7 +14,11 @@ export const getSubmitHandler =
       return acc;
     }, {});
 
-    const ctdsToUpdate = getUpdateData(values, contentTypesAcc);
+    const ctdsToUpdate = getUpdateData(
+      values,
+      contentTypesAcc,
+      values?.color_palette?.length > 0,
+    );
 
     try {
       await Promise.all(

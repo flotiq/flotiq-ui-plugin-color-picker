@@ -51,6 +51,7 @@ export const handleFieldConfig = (
 
   const appData = {
     ...data,
+    uploaded_palette: parsedSettings.color_palette?.[0],
     getPluginSettings,
     setPluginSettings,
     client,

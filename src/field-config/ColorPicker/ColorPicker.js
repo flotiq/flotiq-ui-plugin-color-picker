@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import pluginInfo from '../../plugin-manifest.json';
-import { SketchPicker } from 'react-color';
+import { SketchPicker, SwatchesPicker } from 'react-color';
 import { updatePresetColors } from '../../lib/preset-colors';
 
 /**
@@ -30,6 +30,7 @@ const ColorPicker = ({
   value,
   contentType,
   formik,
+  uploaded_palette,
   client,
   getPluginSettings,
   setPluginSettings,
@@ -41,6 +42,7 @@ const ColorPicker = ({
   );
 
   useEffect(() => {
+    if (uploaded_palette) return;
     client['_plugin_settings'].get(pluginInfo.id).then(({ ok, body }) => {
       if (ok && body.settings) {
         setPluginSettings(body.settings);
@@ -49,18 +51,45 @@ const ColorPicker = ({
         );
       }
     });
-  }, [client, contentType?.name, name, setPluginSettings]);
+  }, [client, contentType?.name, name, setPluginSettings, uploaded_palette]);
+
+  const swatchesByColor = useMemo(() => {
+    if (!uploaded_palette) return {};
+    const swatches = {};
+    uploaded_palette.palette.forEach((group) => {
+      group.forEach((color) => {
+        const data =
+          typeof color === 'string' ? { value: color, name: color } : color;
+        swatches[data.color] = data.name;
+      });
+    });
+    return swatches;
+  }, [uploaded_palette]);
+
+  const swatches = useMemo(() => {
+    if (!uploaded_palette) return [];
+    return uploaded_palette.palette.map((group) =>
+      group.map((color) => {
+        return typeof color === 'string' ? color : color.value;
+      }),
+    );
+  }, [uploaded_palette]);
 
   const onChange = useCallback(
     (color) => {
+      if (uploaded_palette) {
+        const colorName = swatchesByColor[color.hex] || color.hex;
+        formik.setFieldValue(name, colorName);
+        return;
+      }
+
       let hexColor = color.hex;
       if (typeof color.rgb?.a === 'number' && color.rgb.a < 1) {
         hexColor += alphaToHex(color.rgb.a);
       }
       formik.setFieldValue(name, hexColor);
-      formik.validateForm('change');
     },
-    [formik, name],
+    [formik, name, swatchesByColor, uploaded_palette],
   );
 
   const toggleOpen = useCallback(() => {
@@ -127,12 +156,16 @@ const ColorPicker = ({
         />
       </button>
       <div className="plugin-color-picker-picker">
-        <SketchPicker
-          color={value}
-          onChange={onChange}
-          presetColors={presetColors}
-          onChangeComplete={onChangeComplete}
-        />
+        {uploaded_palette ? (
+          <SwatchesPicker onChange={onChange} colors={swatches} />
+        ) : (
+          <SketchPicker
+            color={value}
+            onChange={onChange}
+            presetColors={presetColors}
+            onChangeComplete={onChangeComplete}
+          />
+        )}
       </div>
     </>
   );
