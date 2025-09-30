@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { SwatchesPicker } from 'react-color';
 
-const Swatches = ({ name, formik, swatches }) => {
+const Swatches = ({ name, form, swatches }) => {
   const swatchesByColor = useMemo(() => {
     const swatchesMap = {};
     swatches.forEach((group) => {
@@ -27,10 +27,10 @@ const Swatches = ({ name, formik, swatches }) => {
   const onChange = useCallback(
     (color) => {
       const colorName = swatchesByColor[color.hex] || color.hex;
-      formik.setFieldValue(name, colorName);
+      form.setFieldValue(name, colorName);
       return;
     },
-    [formik, name, swatchesByColor],
+    [form, name, swatchesByColor],
   );
 
   return <SwatchesPicker onChange={onChange} colors={swatchesArray} />;

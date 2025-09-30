@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 * the possibility to upload a color palette #27152
 
+## [1.1.1]
+### Changed
+* refactor form events to use new form API #27220
+
 ## [1.1.0]
 ### Added
 * color memoization after completed color change #27125

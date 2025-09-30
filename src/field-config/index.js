@@ -16,6 +16,8 @@ const initApp = (div, data) => {
   return root;
 };
 
+let cachedRequest = null;
+
 export const handleFieldConfig = (
   data,
   { getPluginSettings, setPluginSettings },
@@ -23,7 +25,7 @@ export const handleFieldConfig = (
 ) => {
   if (!data) return;
 
-  const { contentType, config, properties, name, formUniqueKey, formik } = data;
+  const { contentType, config, properties, name, formUniqueKey, form } = data;
 
   if (contentType?.id === pluginInfo.id && contentType?.nonCtdSchema) {
     const { index, type } =
@@ -33,7 +35,7 @@ export const handleFieldConfig = (
 
     if (type === 'fields') {
       const { fields } = getCachedElement(validFieldsCacheKey);
-      const ctd = formik.values.config[index].content_type;
+      const ctd = form.getValue(`config[${index}].content_type`);
       config.options = fields?.[ctd] || [];
     }
 
@@ -59,7 +61,22 @@ export const handleFieldConfig = (
 
   if (!cachedApp) {
     const div = document.createElement('div');
-    addElementToCache(div, initApp(div, appData), key);
+    addElementToCache(
+      div,
+      initApp(div, appData),
+      key,
+      () => (cachedRequest = null),
+    );
+
+    if (!cachedRequest && !appData.swatches) {
+      cachedRequest = client['_plugin_settings']
+        .get(pluginInfo.id)
+        .then(({ ok, body }) => {
+          if (ok && body.settings) {
+            setPluginSettings(body.settings);
+          }
+        });
+    }
   } else {
     updateApp(cachedApp.root, appData);
   }

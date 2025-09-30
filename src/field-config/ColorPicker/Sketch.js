@@ -29,7 +29,7 @@ const Sketch = ({
   name,
   value,
   contentType,
-  formik,
+  form,
   client,
   getPluginSettings,
   setPluginSettings,
@@ -55,9 +55,9 @@ const Sketch = ({
       if (typeof color.rgb?.a === 'number' && color.rgb.a < 1) {
         hexColor += alphaToHex(color.rgb.a);
       }
-      formik.setFieldValue(name, hexColor);
+      form.setFieldValue(name, hexColor);
     },
-    [formik, name],
+    [form, name],
   );
 
   const onChangeComplete = useCallback(

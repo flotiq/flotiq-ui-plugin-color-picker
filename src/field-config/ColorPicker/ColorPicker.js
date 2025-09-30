@@ -6,13 +6,14 @@ const ColorPicker = ({
   name,
   value,
   contentType,
-  formik,
+  form,
   swatches,
   client,
   getPluginSettings,
   setPluginSettings,
 }) => {
   const ref = useRef();
+  const [isBottom, setIsBottom] = useState(false);
   const [open, setOpen] = useState(false);
 
   const swatchesByName = useMemo(() => {
@@ -57,13 +58,27 @@ const ColorPicker = ({
     };
   }, []);
 
+  const onRef = useCallback((button) => {
+    const form = document.querySelector('form');
+    if (!form || !button) return;
+
+    const formRect = form.getBoundingClientRect();
+    const buttonRect = button.getBoundingClientRect();
+
+    ref.current = button;
+    setIsBottom(
+      buttonRect.top - formRect.top > 270 &&
+        formRect.bottom - buttonRect.bottom < 270,
+    );
+  }, []);
+
   return (
     <>
       <button
         className={`plugin-color-picker-pick-button ${open ? 'plugin-color-picker-pick-button--opened' : ''}`}
         type="button"
         onClick={toggleOpen}
-        ref={ref}
+        ref={onRef}
       >
         <div className="plugin-color-picker-swatch-bg"></div>
         <div
@@ -71,19 +86,21 @@ const ColorPicker = ({
           style={{ background: swatchesByName[value] || value || '#ffffff' }}
         />
       </button>
-      <div className="plugin-color-picker-picker">
+      <div
+        className={
+          'plugin-color-picker-picker ' +
+          (isBottom ? 'plugin-color-picker-picker--top' : '')
+        }
+        ref={ref}
+      >
         {swatches ? (
-          <Swatches
-            name={name}
-            formik={formik}
-            swatches={swatches}
-          />
+          <Swatches name={name} form={form} swatches={swatches} />
         ) : (
           <Sketch
             name={name}
             value={value}
             contentType={contentType}
-            formik={formik}
+            form={form}
             client={client}
             getPluginSettings={getPluginSettings}
             setPluginSettings={setPluginSettings}
