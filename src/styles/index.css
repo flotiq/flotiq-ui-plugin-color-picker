@@ -20,6 +20,10 @@ div:has(> label.hidden) + div .plugin-color-picker-pick-button {
   display: none;
 }
 
+.plugin-color-picker-picker--top {
+  bottom: 48px;
+}
+
 .plugin-color-picker-pick-button--opened + .plugin-color-picker-picker {
   display: block;
 }

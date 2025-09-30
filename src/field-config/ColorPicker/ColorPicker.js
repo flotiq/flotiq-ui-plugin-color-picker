@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import pluginInfo from '../../plugin-manifest.json';
 import { SketchPicker } from 'react-color';
 import { updatePresetColors } from '../../lib/preset-colors';
 
@@ -29,27 +28,17 @@ const ColorPicker = ({
   name,
   value,
   contentType,
-  formik,
+  form,
   client,
   getPluginSettings,
   setPluginSettings,
 }) => {
   const ref = useRef();
+  const [isBottom, setIsBottom] = useState(false);
   const [open, setOpen] = useState(false);
   const [presetColors, setPresetColors] = useState(() =>
     getFieldColorsPreset(getPluginSettings(), name, contentType?.name),
   );
-
-  useEffect(() => {
-    client['_plugin_settings'].get(pluginInfo.id).then(({ ok, body }) => {
-      if (ok && body.settings) {
-        setPluginSettings(body.settings);
-        setPresetColors(
-          getFieldColorsPreset(body.settings, name, contentType?.name),
-        );
-      }
-    });
-  }, [client, contentType?.name, name, setPluginSettings]);
 
   const onChange = useCallback(
     (color) => {
@@ -57,10 +46,9 @@ const ColorPicker = ({
       if (typeof color.rgb?.a === 'number' && color.rgb.a < 1) {
         hexColor += alphaToHex(color.rgb.a);
       }
-      formik.setFieldValue(name, hexColor);
-      formik.validateForm('change');
+      form.setFieldValue(name, hexColor);
     },
-    [formik, name],
+    [form, name],
   );
 
   const toggleOpen = useCallback(() => {
@@ -112,13 +100,27 @@ const ColorPicker = ({
     };
   }, []);
 
+  const onRef = useCallback((button) => {
+    const form = document.querySelector('form');
+    if (!form || !button) return;
+
+    const formRect = form.getBoundingClientRect();
+    const buttonRect = button.getBoundingClientRect();
+
+    ref.current = button;
+    setIsBottom(
+      buttonRect.top - formRect.top > 270 &&
+        formRect.bottom - buttonRect.bottom < 270,
+    );
+  }, []);
+
   return (
     <>
       <button
         className={`plugin-color-picker-pick-button ${open ? 'plugin-color-picker-pick-button--opened' : ''}`}
         type="button"
         onClick={toggleOpen}
-        ref={ref}
+        ref={onRef}
       >
         <div className="plugin-color-picker-swatch-bg"></div>
         <div
@@ -126,7 +128,13 @@ const ColorPicker = ({
           style={{ background: value || '#ffffff' }}
         />
       </button>
-      <div className="plugin-color-picker-picker">
+      <div
+        className={
+          'plugin-color-picker-picker ' +
+          (isBottom ? 'plugin-color-picker-picker--top' : '')
+        }
+        ref={ref}
+      >
         <SketchPicker
           color={value}
           onChange={onChange}
