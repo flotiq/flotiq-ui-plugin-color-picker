@@ -59,7 +59,7 @@ const ColorPicker = ({
   }, []);
 
   const onRef = useCallback((button) => {
-    const form = document.querySelector('form');
+    const form = document.querySelector('form')?.parentElement;
     if (!form || !button) return;
 
     const formRect = form.getBoundingClientRect();
@@ -67,8 +67,8 @@ const ColorPicker = ({
 
     ref.current = button;
     setIsBottom(
-      buttonRect.top - formRect.top > 270 &&
-        formRect.bottom - buttonRect.bottom < 270,
+      buttonRect.top - formRect.top > 300 &&
+        formRect.bottom - buttonRect.bottom < 300,
     );
   }, []);
 

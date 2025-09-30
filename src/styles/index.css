@@ -204,4 +204,10 @@ div:has(> label.hidden) + div .plugin-color-picker-pick-button {
 
 .plugin-color-picker-picker .swatches-picker > div > div > div {
   height: fit-content !important;
+  max-height: 300px;
+}
+
+.mode-dark .plugin-color-picker-picker .swatches-picker > div > div {
+  background-color: #1e293b;
+  border: 1px solid #334155;
 }
