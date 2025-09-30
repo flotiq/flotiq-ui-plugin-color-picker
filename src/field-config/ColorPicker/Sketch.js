@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
-import pluginInfo from '../../plugin-manifest.json';
+import { useCallback, useState } from 'react';
 import { updatePresetColors } from '../../lib/preset-colors';
 import { SketchPicker } from 'react-color';
 
@@ -37,17 +36,6 @@ const Sketch = ({
   const [presetColors, setPresetColors] = useState(() =>
     getFieldColorsPreset(getPluginSettings(), name, contentType?.name),
   );
-
-  useEffect(() => {
-    client['_plugin_settings'].get(pluginInfo.id).then(({ ok, body }) => {
-      if (ok && body.settings) {
-        setPluginSettings(body.settings);
-        setPresetColors(
-          getFieldColorsPreset(body.settings, name, contentType?.name),
-        );
-      }
-    });
-  }, [client, contentType?.name, name, setPluginSettings]);
 
   const onChange = useCallback(
     (color) => {

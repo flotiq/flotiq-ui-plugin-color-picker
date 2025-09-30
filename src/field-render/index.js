@@ -30,7 +30,7 @@ const isRightFormat = (content) => {
 };
 
 export const handleFieldRender = (
-  { contentType, name, value, formik },
+  { contentType, name, value, form },
   toast,
 ) => {
   if (
@@ -105,7 +105,7 @@ export const handleFieldRender = (
             return;
           }
 
-          formik.setFieldValue('color_palette', [
+          form.setFieldValue('color_palette', [
             { file_name: file.name, swatches: content },
           ]);
         } catch {
@@ -138,7 +138,7 @@ export const handleFieldRender = (
       '.flotiq-color-picker-palette-file-remove',
     );
     removeButton.onclick = () => {
-      formik.setFieldValue('color_palette', []);
+      form.setFieldValue('color_palette', []);
     };
   }
 
