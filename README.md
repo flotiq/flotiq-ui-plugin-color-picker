@@ -10,7 +10,13 @@ The Flotiq Color Picker plugin transforms standard text input fields into intuit
 
 Transformed text field into color picker:
 
-<img src=".docs/input-color-picker.png" alt="Input with color picker" width="400"/>
+**Without predefined color palette**
+
+<img src=".docs/input-color-picker.png" alt="Color picker input" width="400"/>
+
+**With predefined color palette**
+
+<img src=".docs/input-color-picker-with-palette.png" alt="Color picker input with color palette" width="400"/>
 
 ## Configuring the plugin
 
@@ -20,7 +26,65 @@ Transformed text field into color picker:
 
 <img src=".docs/color-picker-settings.png" alt="Color picker configuration" width="400"/>
 
-After saving the plugin, the selected fields in your content type definition will be automatically updated with a validation pattern (regex) to ensure proper hex color code format. To maintain color validation functionality, please keep this pattern intact and avoid manual removal.
+After saving the plugin, if custom palette was not uploaded, the selected fields in your content type definition will be automatically updated with a validation pattern (regex) to ensure proper hex color code format. To maintain color validation functionality, please keep this pattern intact and avoid manual removal.
+
+### Custom Color Palette
+
+To use a predefined palette:
+
+1. Click "Upload Palette" in the plugin settings.
+2. Choose a JSON file with the correct format (see examples below).
+
+#### Palette Format
+
+The color palette must be a JSON array containing arrays of colors. Each color can be either:
+- A simple string (hex color code)
+- An object with `name` (any string) and `value` (hex color code) properties
+
+**Example 1: Simple hex colors**
+```json
+[
+  [
+    "#F0F9FF",
+    "#E7F1FE"
+  ],
+  [
+    "#F7FEE7",
+    "#E4F9B9"
+  ]
+]
+```
+
+**Example 2: Named colors**
+```json
+[
+  [
+    {
+      "name": "primary-50",
+      "value": "#F0F9FF"
+    },
+    {
+      "name": "primary-100",
+      "value": "#E7F1FE"
+    }
+  ],
+  [
+    {
+      "name": "secondary-50",
+      "value": "#F7FEE7"
+    },
+    {
+      "name": "secondary-100",
+      "value": "#E4F9B9"
+    }
+  ]
+]
+```
+
+If the format is correct, you should see the chosen file in the plugin settings:
+
+<img src=".docs/color-picker-settings-palette.png" alt="Color picker palette configuration" width="400"/>
+
 
 # Development
 

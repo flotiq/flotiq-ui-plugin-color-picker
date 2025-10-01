@@ -36,6 +36,28 @@ export const getSchema = (contentTypes) => ({
               },
             },
           },
+          color_palette: {
+            type: 'array',
+            items: {
+              properties: {
+                file_name: {
+                  type: 'string',
+                  minLength: 1,
+                },
+                swatches: {
+                  type: 'array',
+                  items: {
+                    type: 'array',
+                    items: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+              required: [],
+              type: 'object',
+            },
+          },
           presets: {
             type: 'array',
             items: {
@@ -64,7 +86,7 @@ export const getSchema = (contentTypes) => ({
     additionalProperties: false,
   },
   metaDefinition: {
-    order: ['config', 'presets'],
+    order: ['color_palette', 'config', 'presets'],
     propertiesConfig: {
       config: {
         items: {
@@ -93,6 +115,30 @@ export const getSchema = (contentTypes) => ({
         unique: false,
         helpText: '',
         inputType: 'object',
+      },
+      color_palette: {
+        hidden: true,
+        label: 'Color palette',
+        helpText: '',
+        unique: false,
+        inputType: 'object',
+        items: {
+          propertiesConfig: {
+            file_name: {
+              label: 'File name',
+              helpText: '',
+              unique: false,
+              inputType: 'text',
+            },
+            swatches: {
+              label: 'Swatches',
+              helpText: '',
+              unique: false,
+              inputType: 'simpleList',
+            },
+          },
+          order: ['file_name', 'swatches'],
+        },
       },
       presets: {
         label: 'presets',

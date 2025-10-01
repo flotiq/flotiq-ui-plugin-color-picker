@@ -7,6 +7,7 @@ import { handleRemovedEvent } from './plugin-removed';
 
 import cssString from '!!css-loader?{"sourceMap":false,"exportType":"string"}!./styles/index.css';
 import { handleFormFieldListenersAdd } from './field-listeners';
+import { handleFieldRender } from './field-render';
 
 registerFn(pluginInfo, (handler, client, globals) => {
   if (!document.getElementById(`${pluginInfo.id}-styles`)) {
@@ -25,6 +26,10 @@ registerFn(pluginInfo, (handler, client, globals) => {
 
   handler.on('flotiq.form.field::config', (data) =>
     handleFieldConfig(data, globals, client),
+  );
+
+  handler.on('flotiq.form.field::render', (data) =>
+    handleFieldRender(data, globals.toast),
   );
 
   handler.on('flotiq.plugins.manage::form-schema', (data) =>

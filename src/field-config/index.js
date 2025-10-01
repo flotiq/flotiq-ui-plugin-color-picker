@@ -53,6 +53,7 @@ export const handleFieldConfig = (
 
   const appData = {
     ...data,
+    swatches: parsedSettings.color_palette?.[0]?.swatches,
     getPluginSettings,
     setPluginSettings,
     client,
@@ -67,7 +68,7 @@ export const handleFieldConfig = (
       () => (cachedRequest = null),
     );
 
-    if (!cachedRequest) {
+    if (!cachedRequest && !appData.swatches) {
       cachedRequest = client['_plugin_settings']
         .get(pluginInfo.id)
         .then(({ ok, body }) => {

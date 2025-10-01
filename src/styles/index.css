@@ -75,3 +75,139 @@ div:has(> label.hidden) + div .plugin-color-picker-pick-button {
 .plugin-color-picker-clean-ctd-warning__content {
   white-space: pre-line;
 }
+
+/** Upload pallete */
+
+.flotiq-color-picker-palette-upload-input {
+  display: none;
+}
+
+.flotiq-color-picker-palette-button {
+  display: flex;
+  background-color: #0083fc;
+  border: 1px solid #0083fc;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.75rem;
+  height: 2rem;
+  width: fit-content;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.flotiq-color-picker-palette--hidden {
+  display: none !important;
+}
+
+.flotiq-color-picker-palette-file-card {
+  height: 6rem;
+  display: flex;
+  justify-items: center;
+  border: 1px solid #8ea1b8;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mode-dark .flotiq-color-picker-palette-file-card {
+  border-color: #475569;
+}
+
+.flotiq-color-picker-palette-file-extension {
+  height: 3rem;
+  width: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #99cdfe;
+  border-radius: 9999px;
+}
+
+.mode-dark .flotiq-color-picker-palette-file-extension {
+  color: #141046;
+}
+
+.flotiq-color-picker-palette-file-image {
+  background: #eeeef4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33%;
+  max-width: 150px;
+}
+
+.mode-dark .flotiq-color-picker-palette-file-image {
+  background-color: #3b3953;
+}
+
+.flotiq-color-picker-palette-file-info {
+  width: 100%;
+  background-color: #f8f9fc;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.mode-dark .flotiq-color-picker-palette-file-info {
+  background-color: #1e293b;
+  color: white;
+}
+
+.flotiq-color-picker-palette-file-name {
+  margin: auto 0;
+}
+
+.flotiq-color-picker-palette-file-export {
+  height: 1.75rem;
+  font-size: 12px;
+  margin-top: auto;
+}
+
+.flotiq-color-picker-palette-file-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.flotiq-color-picker-palette-file-remove {
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  background-color: #eeeef4;
+  border-radius: 0.75rem;
+  width: 2.5rem;
+  justify-content: center;
+}
+
+.mode-dark .flotiq-color-picker-palette-file-remove {
+  background-color: #334155;
+}
+
+.flotiq-color-picker-palette-file-remove > span {
+  height: 14px;
+  width: 14px;
+  display: block;
+  background: url('data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAxNC44IDE2LjEiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSJoLTMuNSB0ZXh0LXJlZC02MDAgZGFyazp0ZXh0LW9yYW5nZS01MDAiPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CgkudHJhc2gtdGhpbi1pY29uLXN0MXtmaWxsOm5vbmU7c3Ryb2tlOiNkYzI2MjY7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO30KPC9zdHlsZT48Zz48cGF0aCBjbGFzcz0idHJhc2gtdGhpbi1pY29uLXN0MSIgZD0iTTE0LjMsMy4xSDAuNSI+PC9wYXRoPjxwYXRoIGNsYXNzPSJ0cmFzaC10aGluLWljb24tc3QxIiBkPSJNNS41LDYuOHY1Ij48L3BhdGg+PHBhdGggY2xhc3M9InRyYXNoLXRoaW4taWNvbi1zdDEiIGQ9Ik05LjMsNi44djUiPjwvcGF0aD48cGF0aCBjbGFzcz0idHJhc2gtdGhpbi1pY29uLXN0MSIgZD0iTTEzLDMuMVYxNWMwLDAuMi0wLjEsMC4zLTAuMiwwLjRjLTAuMSwwLjEtMC4zLDAuMi0wLjQsMC4yaC0xMGMtMC4yLDAtMC4zLTAuMS0wLjQtMC4yUzEuOCwxNS4xLDEuOCwxNVYzLjEgIj48L3BhdGg+PHBhdGggY2xhc3M9InRyYXNoLXRoaW4taWNvbi1zdDEiIGQ9Ik0xMC41LDMuMVYxLjhjMC0wLjMtMC4xLTAuNi0wLjQtMC45QzkuOSwwLjcsOS41LDAuNSw5LjIsMC41SDUuNUM1LjIsMC42LDQuOSwwLjcsNC42LDAuOSBDNC40LDEuMiw0LjMsMS41LDQuMywxLjhWMyI+PC9wYXRoPjwvZz48L3N2Zz4=');
+}
+
+.flotiq-color-picker-palette-file-remove > span {
+  background: url('data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAxNC44IDE2LjEiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSJoLTMuNSB0ZXh0LXJlZC02MDAgZGFyazp0ZXh0LW9yYW5nZS01MDAiPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CgkudHJhc2gtdGhpbi1pY29uLXN0MXtmaWxsOm5vbmU7c3Ryb2tlOiNmZjVhMTM7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO30KPC9zdHlsZT48Zz48cGF0aCBjbGFzcz0idHJhc2gtdGhpbi1pY29uLXN0MSIgZD0iTTE0LjMsMy4xSDAuNSI+PC9wYXRoPjxwYXRoIGNsYXNzPSJ0cmFzaC10aGluLWljb24tc3QxIiBkPSJNNS41LDYuOHY1Ij48L3BhdGg+PHBhdGggY2xhc3M9InRyYXNoLXRoaW4taWNvbi1zdDEiIGQ9Ik05LjMsNi44djUiPjwvcGF0aD48cGF0aCBjbGFzcz0idHJhc2gtdGhpbi1pY29uLXN0MSIgZD0iTTEzLDMuMVYxNWMwLDAuMi0wLjEsMC4zLTAuMiwwLjRjLTAuMSwwLjEtMC4zLDAuMi0wLjQsMC4yaC0xMGMtMC4yLDAtMC4zLTAuMS0wLjQtMC4yUzEuOCwxNS4xLDEuOCwxNVYzLjEgIj48L3BhdGg+PHBhdGggY2xhc3M9InRyYXNoLXRoaW4taWNvbi1zdDEiIGQ9Ik0xMC41LDMuMVYxLjhjMC0wLjMtMC4xLTAuNi0wLjQtMC45QzkuOSwwLjcsOS41LDAuNSw5LjIsMC41SDUuNUM1LjIsMC42LDQuOSwwLjcsNC42LDAuOSBDNC40LDEuMiw0LjMsMS41LDQuMywxLjhWMyI+PC9wYXRoPjwvZz48L3N2Zz4=');
+}
+
+/** Swatches picker */
+
+.plugin-color-picker-picker .swatches-picker {
+  width: fit-content !important;
+  height: fit-content !important;
+}
+
+.plugin-color-picker-picker .swatches-picker > div > div > div {
+  height: fit-content !important;
+  max-height: 300px;
+}
+
+.mode-dark .plugin-color-picker-picker .swatches-picker > div > div {
+  background-color: #1e293b;
+  border: 1px solid #334155;
+}

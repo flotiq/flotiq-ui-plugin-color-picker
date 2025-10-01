@@ -1,34 +1,13 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { SketchPicker } from 'react-color';
-import { updatePresetColors } from '../../lib/preset-colors';
-
-/**
- * Converts alpha (0-1) to 2-digit hex
- * Due to https://github.com/casesandberg/react-color/issues/416,
- * we need to manually convert aplha to hex
- */
-const alphaToHex = (alpha) => {
-  const hex = Math.round(alpha * 255)
-    .toString(16)
-    .padStart(2, '0');
-  return hex;
-};
-
-const getFieldColorsPreset = (pluginSettings, fieldName, contentTypeName) => {
-  const name = fieldName.replace(/\[\d+\]/g, '');
-  const allPresets = JSON.parse(pluginSettings || '{}')?.presets || [];
-  const fieldPreset = allPresets.find(
-    ({ content_type, field_name }) =>
-      content_type === contentTypeName && field_name === name,
-  );
-  return fieldPreset?.colors_preset || [];
-};
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import Swatches from './Swatches';
+import Sketch from './Sketch';
 
 const ColorPicker = ({
   name,
   value,
   contentType,
   form,
+  swatches,
   client,
   getPluginSettings,
   setPluginSettings,
@@ -36,44 +15,23 @@ const ColorPicker = ({
   const ref = useRef();
   const [isBottom, setIsBottom] = useState(false);
   const [open, setOpen] = useState(false);
-  const [presetColors, setPresetColors] = useState(() =>
-    getFieldColorsPreset(getPluginSettings(), name, contentType?.name),
-  );
 
-  const onChange = useCallback(
-    (color) => {
-      let hexColor = color.hex;
-      if (typeof color.rgb?.a === 'number' && color.rgb.a < 1) {
-        hexColor += alphaToHex(color.rgb.a);
-      }
-      form.setFieldValue(name, hexColor);
-    },
-    [form, name],
-  );
+  const swatchesByName = useMemo(() => {
+    if (!swatches) return {};
+    const swatchesMap = {};
+    swatches.forEach((group) => {
+      group.forEach((color) => {
+        const data =
+          typeof color === 'string' ? { value: color, name: color } : color;
+        swatchesMap[data.name] = data.value;
+      });
+    });
+    return swatchesMap;
+  }, [swatches]);
 
   const toggleOpen = useCallback(() => {
     setOpen((open) => !open);
   }, []);
-
-  const onChangeComplete = useCallback(
-    (color) => {
-      let hexColor = color.hex;
-      if (typeof color.rgb?.a === 'number' && color.rgb.a < 1) {
-        hexColor += alphaToHex(color.rgb.a);
-      }
-      const newColorsPreset = updatePresetColors(
-        hexColor,
-        name,
-        contentType?.name,
-        getPluginSettings,
-        setPluginSettings,
-        client,
-      );
-
-      setPresetColors(newColorsPreset);
-    },
-    [name, contentType?.name, getPluginSettings, setPluginSettings, client],
-  );
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -101,7 +59,7 @@ const ColorPicker = ({
   }, []);
 
   const onRef = useCallback((button) => {
-    const form = document.querySelector('form');
+    const form = document.querySelector('form')?.parentElement;
     if (!form || !button) return;
 
     const formRect = form.getBoundingClientRect();
@@ -109,8 +67,8 @@ const ColorPicker = ({
 
     ref.current = button;
     setIsBottom(
-      buttonRect.top - formRect.top > 270 &&
-        formRect.bottom - buttonRect.bottom < 270,
+      buttonRect.top - formRect.top > 300 &&
+        formRect.bottom - buttonRect.bottom < 300,
     );
   }, []);
 
@@ -125,7 +83,7 @@ const ColorPicker = ({
         <div className="plugin-color-picker-swatch-bg"></div>
         <div
           className={`plugin-color-picker-swatch ${!value ? 'plugin-color-picker-swatch--empty' : ''}`}
-          style={{ background: value || '#ffffff' }}
+          style={{ background: swatchesByName[value] || value || '#ffffff' }}
         />
       </button>
       <div
@@ -135,12 +93,19 @@ const ColorPicker = ({
         }
         ref={ref}
       >
-        <SketchPicker
-          color={value}
-          onChange={onChange}
-          presetColors={presetColors}
-          onChangeComplete={onChangeComplete}
-        />
+        {swatches ? (
+          <Swatches name={name} form={form} swatches={swatches} />
+        ) : (
+          <Sketch
+            name={name}
+            value={value}
+            contentType={contentType}
+            form={form}
+            client={client}
+            getPluginSettings={getPluginSettings}
+            setPluginSettings={setPluginSettings}
+          />
+        )}
       </div>
     </>
   );

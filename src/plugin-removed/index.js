@@ -31,6 +31,10 @@ export const handleRemovedEvent = async (
       return acc;
     }, {});
 
+    if (pluginSettings?.color_palette?.length) {
+      return;
+    }
+
     const removePatterns = await showWarningModal(
       contentTypeNames
         .map(
